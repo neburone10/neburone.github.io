@@ -1,12 +1,172 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Página en GitHub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía para la integración de LuckFox en PS4 Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
 </head>
 <body>
-  <h1>¡Hola, Mundo!</h1>
-  <p>Esta es mi página en GitHub Pages.</p>
+    <div class="container">
+        <div class="tabs">
+            <div id="tab-en" class="tab" onclick="switchTab('en')">English</div>
+            <div id="tab-es" class="tab" onclick="switchTab('es')">Español</div>
+        </div>
+        <div id="content-en" class="content">
+            <h1>Guide for integrating LuckFox on PS4 Pro</h1>
+            <h2>Required Materials:</h2>
+            <ul>
+                <li>Soldering iron</li>
+                <li>Solder</li>
+                <li>Wire (I recommend flexible stranded wire, I use 0.75mm diameter including plastic insulation)</li>
+                <li>Thermal tape to insulate the wires and chip to avoid shorts</li>
+                <li>LuckFox Pico (I used this model because of its size, allowing integration in the space I found)</li>
+                <li>MicroSD card of 8GB or higher</li>
+            </ul>
+            <p>For the board configuration, refer to the repository: <a href="https://github.com/0x1iii1ii/PPPwn-Luckfox">https://github.com/0x1iii1ii/PPPwn-Luckfox</a>. Note that when using this board, ethernet pins 4, 5, 7, and 8 need to be connected to GND for the router to recognize it, as seen in issue <a href="https://github.com/0x1iii1ii/PPPwn-Luckfox/issues/7">https://github.com/0x1iii1ii/PPPwn-Luckfox/issues/7</a></p>
+            <p>Regarding the ethernet connection, I apologize for not being able to maintain the color coding in the photos, I didn't have enough cables. For the PPPoE connection used by the PPPwn exploit, only 10/100 ethernet is needed, so 4 wires are sufficient. This diagram shows the pins we need.</p>
+            <div class="image-container">
+                <img src="img/ethernet.png" alt="Ethernet Diagram" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>As you can see, only TxD+, TxD-, RxD+, and RxD- are needed, and these should be connected to the LuckFox board on pins TxP, TxN, RxP, and RxN respectively from the following diagram.</p>
+            <div class="image-container">
+                <img src="img/luckfox.jpg" alt="LuckFox Diagram" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>For power, although the board can be powered via USB-C, it is also possible to do so via the VBUS and GND pins, corresponding to numbers 40 and 38 in the previous diagram.</p>
+            <p>With the connections clarified, the only thing left is how to route the cables so they don't interfere with the metal plates or plastic covers.</p>
+            <h2>Disassembling the Console</h2>
+            <p>There are thousands of tutorials on YouTube for disassembling the console. As a tip, if you want to keep your warranty stickers intact, heat them with a hot air gun, and they will come off without damage. It is also advisable to change the thermal paste since we have the console disassembled and the board separated from the heatsink.</p>
+            <p>These images are taken from the internet, ignore the condition of the motherboard, the important thing is what is marked in each case with the red circles.</p>
+            <div class="image-container">
+                <img src="img/f-board.jpeg" alt="Side A" class="image-placeholder" onclick="toggleImageSize(this)">
+                <div class="image-caption">Side A</div>
+            </div>
+            <div class="image-container">
+                <img src="img/b-board.jpeg" alt="Side B" class="image-placeholder" onclick="toggleImageSize(this)">
+                <div class="image-caption">Side B</div>
+            </div>
+            <p>On side A, we have the ethernet connections, following the diagram shown earlier it would look like this (these are the images I took of my console):</p>
+            <div class="image-container">
+                <img src="img/ethernet_soldered.jpg" alt="Ethernet Soldered" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>I secured the wires in this area with hot glue so they wouldn't move and thus not interfere with the metal plate above the motherboard.</p>
+            <div class="image-container">
+                <img src="img/ethernet_glue.jpg" alt="Ethernet Glue" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>All that's left is to get power for the LuckFox chip. We will take this from the rear USB marked in the red circle on side B of the motherboard. The connections would look like this:</p>
+            <div class="image-container">
+                <img src="img/usb_wires.jpg" alt="USB Wires" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>To properly place the wires, we need to pass them under the metal plate as indicated in this diagram:</p>
+            <div class="image-container">
+                <img src="img/scheme.jpeg" alt="Wiring Scheme" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>The red arrow indicates where the wires enter the rear of the metal plate, the green lines indicate where the wires are hidden under the metal plate.</p>
+            <p>This is the real image of how it looked in my console:</p>
+            <div class="image-container">
+                <img src="img/result1.jpg" alt="Result 1" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>At the back, the wires pass close to the edge of the power supply bay as seen in this image:</p>
+            <div class="image-container">
+                <img src="img/power_wires.jpg" alt="Power Wires" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>The wires pass next to the hard drive tray as shown below:</p>
+            <div class="image-container">
+                <img src="img/result2.jpg" alt="Result 2" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>In this image, you can see the connections closer to the LuckFox board and also the position where it will be located:</p>
+            <div class="image-container">
+                <img src="img/result3.jpg" alt="Result 3" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>I also covered the board and its connections with thermal tape to avoid any unwanted contact that could cause a short circuit:</p>
+            <div class="image-container">
+                <img src="img/result4.jpg" alt="Result 4" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Finally, the final installation would look like this with the top metal plate already in place.</p>
+            <div class="image-container">
+                <img src="img/result5.jpg" alt="Result 5" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+        </div>
+        <div id="content-es" class="content">
+            <h1>Guía para la integración de LuckFox en PS4 Pro</h1>
+            <h2>Materiales necesarios:</h2>
+            <ul>
+                <li>Cautin/Soldador de estaño</li>
+                <li>Estaño</li>
+                <li>Cable (recomiendo que sea flexible de hilos, el que yo uso tiene 0.75mm de diámetro con el revestimiento de plástico incluido)</li>
+                <li>Cinta térmica para aislar los cables y el chip, para evitar cortos</li>
+                <li>LuckFox Pico (En mi caso he utilizado este modelo por el tamaño, ya que permite la integración en el hueco que he encontrado)</li>
+                <li>Tarjeta microSD de 8GB o superior</li>
+            </ul>
+            <p>Para la configuración de la placa se puede referir al repositorio: <a href="https://github.com/0x1iii1ii/PPPwn-Luckfox">https://github.com/0x1iii1ii/PPPwn-Luckfox</a>. Como apunte, al utilizar esta placa es necesario que los pines ethernet 4, 5, 7 y 8 estén conectados a GND para que el router lo reconozca, como se puede ver en el issue <a href="https://github.com/0x1iii1ii/PPPwn-Luckfox/issues/7">https://github.com/0x1iii1ii/PPPwn-Luckfox/issues/7</a></p>
+            <p>En lo que respecta a la conexión ethernet siento no haber podido mantener el código de colores en las fotos, no disponía de los cables suficientes. Para la conexión PPPoE que utiliza el exploit PPPwn solo necesitamos la conexión ethernet 10/100, por lo que 4 cables son suficientes. En este esquema se puede ver los pines que necesitamos.</p>
+            <div class="image-container">
+                <img src="img/ethernet.png" alt="Esquema de Ethernet" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Como se puede ver, solo son los TxD+, TxD-, RxD+ y RxD-, estos deben ir conectados a la placa LuckFox en los pines TxP, TxN, RxP y RxN respectivamente del siguiente esquema.</p>
+            <div class="image-container">
+                <img src="img/luckfox.jpg" alt="Esquema de LuckFox" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Para la alimentación, pese a que la placa se puede alimentar por USB-C, también es posible hacerlo mediante los pines VBUS y GND, correspondientes a los números 40 y 38 del esquema anterior.</p>
+            <p>Con las conexiones aclaradas, lo único que falta es cómo pasar los cables para que no interfieran con las placas metálicas ni con las carcasas de plástico.</p>
+            <h2>Desmontaje de la consola</h2>
+            <p>Para desmontar la consola hay miles de tutoriales en youtube, como consejo, si quieres mantener tus pegatinas de garantía intactas caliéntalas con una pistola de aire caliente y se despegarán sin daños. También es recomendable cambiar la pasta térmica ya que tenemos la consola demontada y separamos la placa del disipador.</p>
+            <p>Estas son unas imágenes tomadas de internet, ignorardel estado de la placa base, lo importante es lo que se marca en cada caso en los círculos rojos.</p>
+            <div class="image-container">
+                <img src="img/f-board.jpeg" alt="Cara A" class="image-placeholder" onclick="toggleImageSize(this)">
+                <div class="image-caption">Cara A</div>
+            </div>
+            <div class="image-container">
+                <img src="img/b-board.jpeg" alt="Cara B" class="image-placeholder" onclick="toggleImageSize(this)">
+                <div class="image-caption">Cara B</div>
+            </div>
+            <p>En la cara a tenemos las conexiones ethernet, siguiendo el esquema mostrado anteriormente quedaría de la siguiente forma (estas son las imágenes que tomé yo de mi consola):</p>
+            <div class="image-container">
+                <img src="img/ethernet_soldered.jpg" alt="Ethernet Soldado" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Yo sujeté los cables en esta zona con silicona caliente para que no se movieran y así no entorpezcan a la placa metálica que lleva por encima la placa base.</p>
+            <div class="image-container">
+                <img src="img/ethernet_glue.jpg" alt="Ethernet con Silicona" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Ya solo quedaría obtener la alimentación del chip LuckFox. Esta la sacaremos del usb trasero que se marca en el círculo rojo de la cara b de la placa base. Las conexiones quedarían así:</p>
+            <div class="image-container">
+                <img src="img/usb_wires.jpg" alt="Conexiones USB" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Para colocar bien los cables tenemos que pasarlos por debajo de la placa metálica como se indica en este esquema:</p>
+            <div class="image-container">
+                <img src="img/scheme.jpeg" alt="Esquema de Cableado" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>La flecha roja indica el lugar por donde entran los cables para la parte posterior de la placa metálica, las líneas verdes indican por donde van los cables ocultos debjao de la placa metálica.</p>
+            <p>Esta es la imagen real de como quedó en mi consola:</p>
+            <div class="image-container">
+                <img src="img/result1.jpg" alt="Resultado 1" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Por la parte de atrás los cables pasan pegados al borde del hueco de la fuente de alimentación como se ve en esta imagen:</p>
+            <div class="image-container">
+                <img src="img/power_wires.jpg" alt="Cables de Alimentación" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Los cables pasan por al lado de la bandeja del disco duro como se muestra a continuación:</p>
+            <div class="image-container">
+                <img src="img/result2.jpg" alt="Resultado 2" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>En esta imagen se ven las conexiones más de cerca a la placa LuckFox y también la posición donde irá situada:</p>
+            <div class="image-container">
+                <img src="img/result3.jpg" alt="Resultado 3" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>También he cubierto la placa y sus conexiones con cinta térmica para evitar cualquier tipo de contacto no deseado que pudiese ocasionar un corto:</p>
+            <div class="image-container">
+                <img src="img/result4.jpg" alt="Resultado 4" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+            <p>Finalmente, la instalación final quedaría así con la placa metálica superior ya en su sitio.</p>
+            <div class="image-container">
+                <img src="img/result5.jpg" alt="Resultado 5" class="image-placeholder" onclick="toggleImageSize(this)">
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Rubén Ríos.</p>
+        <p>This site is pending review and update, it may contain errors.</p>
+    </footer>
 </body>
 </html>
